@@ -236,8 +236,6 @@ class Request:
                 "override using force=True"
             )
 
-        url_parts = [self.source.get_base_url(resource_type), resource_type.name]
-
         # Data provider ID to use in the URL
         provider = kwargs.pop("provider", None)
         if resource_type == Resource.data:
@@ -246,16 +244,14 @@ class Request:
                 warn(f"'provider' argument is redundant for {resource_type!r}")
         provider_id = self.source.get_provider_id(resource_type, provider)
 
+        version = kwargs.pop("version", self.source.default_version)
         url_parts = [
             self.source.get_base_url(resource_type),
             resource_type.name,
             provider_id,
-            resource_id
+            resource_id,
+            self.source.get_version_str(resource_type, version)
         ]
-
-        version = kwargs.pop("version", self.source.default_version)
-        if resource_type != Resource.data:
-            url_parts.append(version)
 
         key = kwargs.pop("key", None)
         dsd = kwargs.pop("dsd", None)

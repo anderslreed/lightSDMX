@@ -108,6 +108,10 @@ class Source(BaseModel):
         if resource_type != Resource.data:
             return provider or self.api_id or self.id
 
+    def get_version_str(self, resource_type, version):
+        if resource_type != Resource.data:
+            return version
+
     def modify_request_args(self, kwargs):
         """Modify arguments used to build query URL.
 
