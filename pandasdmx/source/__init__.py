@@ -97,6 +97,13 @@ class Source(BaseModel):
         """
         return message
 
+    def get_base_url(self, resource_type):
+        if resource_type in self.resource_urls:
+            # base URL specific to resource_type (eg. Bundesbank)?
+            return self.resource_urls[resource_type]
+        # fall back to source-wide URL (most sources)
+        return self.url
+
     def modify_request_args(self, kwargs):
         """Modify arguments used to build query URL.
 

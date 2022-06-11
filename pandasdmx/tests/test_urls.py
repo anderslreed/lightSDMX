@@ -51,7 +51,8 @@ def test_provider_precedence():
 def test_no_resource_type():
     request = _get_request()
     request.source.supports[Resource.structure] = True
-    expected_url = "https://example.org/sdmx/structure/FOO/latest"
+    request.source.resource_urls[Resource.structure] = "https://example.org/other-url"
+    expected_url = "https://example.org/other-url/structure/FOO/latest"
     resource = Structure()
     kwargs = _base_kwargs(resource=resource)
     del kwargs["resource_type"]

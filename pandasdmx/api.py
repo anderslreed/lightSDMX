@@ -211,15 +211,6 @@ class Request:
                 f"resource_type ({resource_type!r}) must be in " + Resource.describe()
             )
 
-        # Base URL
-        try:
-            # base URL specific to resource_type (eg. Bundesbank)?
-            base_url = self.source.resource_urls[resource_type]
-        except KeyError:
-            # fall back to source-wide URL (most sources)
-            base_url = self.source.url
-        url_parts = [base_url]
-
         if resource:
             # Resource object is given
             assert isinstance(resource, MaintainableArtefact)
@@ -245,7 +236,7 @@ class Request:
                 "override using force=True"
             )
 
-        url_parts.append(resource_type.name)
+        url_parts = [self.source.get_base_url(resource_type), resource_type.name]
 
         # Data provider ID to use in the URL
         provider = kwargs.pop("provider", None)
