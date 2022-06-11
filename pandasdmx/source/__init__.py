@@ -97,20 +97,58 @@ class Source(BaseModel):
         """
         return message
 
-    def get_base_url(self, resource_type):
+    def _get_base_url(self, resource_type):
         if resource_type in self.resource_urls:
             # base URL specific to resource_type (eg. Bundesbank)?
             return self.resource_urls[resource_type]
         # fall back to source-wide URL (most sources)
         return self.url
 
-    def get_provider_id(self, resource_type, provider):
+    def _get_provider_id(self, resource_type, provider):
         if resource_type != Resource.data:
             return provider or self.api_id or self.id
 
-    def get_version_str(self, resource_type, version):
+    def _get_version_str(self, resource_type, version):
         if resource_type != Resource.data:
             return version
+
+    def _get_resource_name(self, resource_type):
+        return resource_type.name
+
+    def _get_resource_id(self, resource_type, resource_id):
+        return resource_id
+
+    def _get_key(self, resource_type, key):
+        return key
+
+    def get_url(self, resource_type, provider, resource_id, version, key):
+        """Return a URL string for the specified parameters
+
+        Parameters:
+            resource_type:`source.Resource`
+                Type of resource to retrieve
+            provider: str
+                Name of data provider. May be None.
+            resource_id: str
+                Resource name. May be None.
+            version: str
+                Version string. May be None.
+            key: str
+                May be None.
+        """
+        return "/".join(
+            filter(
+                None,
+                (
+                    self._get_base_url(resource_type),
+                    self._get_resource_name(resource_type),
+                    self._get_provider_id(resource_type, provider),
+                    self._get_resource_id(resource_type, resource_id),
+                    self._get_version_str(resource_type, version),
+                    self._get_key(resource_type, key)
+                )
+            )
+        )
 
     def modify_request_args(self, kwargs):
         """Modify arguments used to build query URL.

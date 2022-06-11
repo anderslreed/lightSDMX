@@ -242,16 +242,8 @@ class Request:
             # Requests for data do not specific an agency in the URL
             if provider is not None:
                 warn(f"'provider' argument is redundant for {resource_type!r}")
-        provider_id = self.source.get_provider_id(resource_type, provider)
 
         version = kwargs.pop("version", self.source.default_version)
-        url_parts = [
-            self.source.get_base_url(resource_type),
-            resource_type.name,
-            provider_id,
-            resource_id,
-            self.source.get_version_str(resource_type, version)
-        ]
 
         key = kwargs.pop("key", None)
         dsd = kwargs.pop("dsd", None)
@@ -265,10 +257,7 @@ class Request:
             key, dsd = self._make_key(resource_type, resource_id, key, dsd)
             kwargs["dsd"] = dsd
 
-        url_parts.append(key)
-
-        # Assemble final URL
-        url = "/".join(filter(None, url_parts))
+        url = self.source.get_url(resource_type, provider, resource_id, version, key)
 
         # Parameters: set 'references' to sensible defaults
         if "references" not in parameters:
