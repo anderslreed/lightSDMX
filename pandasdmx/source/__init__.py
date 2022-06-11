@@ -104,6 +104,10 @@ class Source(BaseModel):
         # fall back to source-wide URL (most sources)
         return self.url
 
+    def get_provider_id(self, resource_type, provider):
+        if resource_type != Resource.data:
+            return provider or self.api_id or self.id
+
     def modify_request_args(self, kwargs):
         """Modify arguments used to build query URL.
 

@@ -244,15 +244,14 @@ class Request:
             # Requests for data do not specific an agency in the URL
             if provider is not None:
                 warn(f"'provider' argument is redundant for {resource_type!r}")
-            provider_id = None
-        else:
-            provider_id = (
-                provider
-                or getattr(self.source, "api_id", None)
-                or getattr(self.source, "id", None)
-            )
+        provider_id = self.source.get_provider_id(resource_type, provider)
 
-        url_parts.extend([provider_id, resource_id])
+        url_parts = [
+            self.source.get_base_url(resource_type),
+            resource_type.name,
+            provider_id,
+            resource_id
+        ]
 
         version = kwargs.pop("version", self.source.default_version)
         if resource_type != Resource.data:
