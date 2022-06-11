@@ -1,6 +1,7 @@
 """Test URL generation by api.Request"""
 from pandasdmx.api import Request, Resource
 from pandasdmx.source import add_source, sources
+from pandasdmx.model import Structure
 
 
 def _base_kwargs(resource_type="data", **kwargs):
@@ -20,8 +21,7 @@ def _check_urls(request, expected, params=None):
     assert request._request_from_args(kwargs).url == expected_url
 
 
-def test_provider_precedence():
-    # Create request
+def _get_request():
     sources.clear()
     add_source(
         {
@@ -31,7 +31,11 @@ def test_provider_precedence():
             "url": "https://example.org/sdmx"
         }
     )
-    request = Request("FOO")
+    return Request("FOO")
+
+
+def test_provider_precedence():
+    request = _get_request()
 
     # Defaults to request.source.id
     _check_urls(request, "FOO")
@@ -44,5 +48,11 @@ def test_provider_precedence():
     _check_urls(request, "BAZ", {"provider": "BAZ"})
 
 
-
-
+def test_no_resource_type():
+    request = _get_request()
+    request.source.supports[Resource.structure] = True
+    expected_url = "https://example.org/sdmx/structure/FOO/latest"
+    resource = Structure()
+    kwargs = _base_kwargs(resource=resource)
+    del kwargs["resource_type"]
+    assert request._request_from_args(kwargs).url == expected_url
