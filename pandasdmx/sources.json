@@ -1,25 +1,12 @@
 [
   {
     "id": "ABS",
-    "data_content_type": "JSON",
-    "url": "https://stat.data.abs.gov.au/sdmx-json",
-    "name": "Australian Bureau of Statistics",
-    "documentation": "https://www.abs.gov.au/"
-  },
-  {
-    "id": "ABS_XML",
-    "api_id": "ABS",
-    "resources": {
-      "data": {
-        "headers": {}
-      }
-    },
     "url": "https://api.data.abs.gov.au",
-    "name": "Australian Bureau of Statistics - XML",
-    "documentation": "https://api.data.abs.gov.au",
+    "name": "Australian Bureau of Statistics",
+    "documentation": "https://www.abs.gov.au/about/data-services/application-programming-interfaces-apis/data-api-user-guide",
     "supports": { "preview": true }
   },
-   {
+  {
     "id": "BBK",
     "resource_urls": {
       "data": "https://api.statistiken.bundesbank.de/rest"
