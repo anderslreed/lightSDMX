@@ -4,7 +4,30 @@
     "url": "https://api.data.abs.gov.au",
     "name": "Australian Bureau of Statistics",
     "documentation": "https://www.abs.gov.au/about/data-services/application-programming-interfaces-apis/data-api-user-guide",
-    "supports": { "preview": true }
+    "supports": {
+      "allowedconstraint": false,
+      "attachementconstraint": false,
+      "customtypescheme": false,
+      "dataconsumerscheme": false,
+      "dataproviderscheme": false,
+      "metadata": false,
+      "metadataflow": false,
+      "metadatastructure": false,
+      "namepersonalisationscheme": false,
+      "organisationscheme": false,
+      "organisationunitscheme": false,
+      "preview": true,
+      "process": false,
+      "provisionagreement": false,
+      "reportingtaxonomy": false,
+      "rulesetscheme": false,
+      "schema": false,
+      "structure": false,
+      "structureset": false,
+      "transformationscheme": false,
+      "userdefinedoperatorscheme": false,
+      "vtlmappingscheme": false
+    }
   },
   {
     "id": "BBK",

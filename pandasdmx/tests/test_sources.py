@@ -142,6 +142,19 @@ class DataSourceTest:
 
 class TestABS(DataSourceTest):
     source_id = "ABS"
+    endpoint_args = {
+        "actualconstraint": {"resource_id": "CR_A_ABS_ACLD_VOLWORK"},
+        "codelist": {"resource_id": "CL_AEC_FED_2017"},
+        "contentconstraint": {"resource_id": "CR_A_ABS_C16_G48_LGA"},
+        "data": {
+            "resource_id": "PPI",
+            "key": "1+4..INPUT.Q?startPeriod=2021-Q1",
+            "params": {
+                "startPeriod": "2021-Q1",
+                "endPeriod": "2022-Q1"
+            }
+        },
+    }
 
 
 class TestECB(DataSourceTest):
